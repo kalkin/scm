@@ -5,9 +5,12 @@ import java.io.IOException;
 import java.util.Iterator;
 
 import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.errors.RevisionSyntaxException;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * This is an {@link Iterable} which is used by the UI for iterating over {@link HistoryEntry}s
@@ -37,7 +40,19 @@ public class History implements Iterable<HistoryEntry> {
 
   }
 
+  private static final Logger LOG = LoggerFactory.getLogger(History.class);
+
   private final RevWalk walker;
+
+  public History(final Repository repo) {
+    this.walker = new RevWalk(repo);
+    try {
+      this.walker.markStart(this.walker.parseCommit(repo.resolve("HEAD")));
+    } catch (RevisionSyntaxException | IOException e) {
+      LOG.error("RevWalk could not mark start " + repo.getDirectory().getAbsolutePath());
+      e.printStackTrace();
+    }
+  }
 
   /**
    * Generate History from a given git project path
@@ -46,10 +61,7 @@ public class History implements Iterable<HistoryEntry> {
    * @throws IOException
    */
   public History(final String uri) throws IOException {
-    final Git git = Git.open(new File(uri));
-    final Repository repo = git.getRepository();
-    this.walker = new RevWalk(repo);
-    this.walker.markStart(this.walker.parseCommit(repo.resolve("HEAD")));
+    this(Git.open(new File(uri)).getRepository());
   }
 
   @Override
