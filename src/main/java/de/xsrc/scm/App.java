@@ -14,7 +14,7 @@ import de.xsrc.scm.tui.HistoryWindow;
 
 /**
  * A simple git log viewer which also displays logs from submodules.
- * 
+ *
  * @author Bahtiar `kalkin-` Gadimov <bahtiar@gadimov.de>
  *
  */
@@ -22,7 +22,7 @@ public class App {
   public static void main(final String[] args) throws IOException {
     final GUIScreen textGUI = TerminalFacade.createGUIScreen();
 
-    final History history = new History("vim-config");
+    final History history = new History(System.getProperty("user.dir"));
     final Window window = new HistoryWindow(history);
     window.setSoloWindow(true);
     window.setBorder(new Border.Invisible());
