@@ -14,6 +14,7 @@ import com.googlecode.lanterna.gui.listener.WindowListener;
 import com.googlecode.lanterna.input.Key;
 
 import de.xsrc.scm.tui.HistoryWindow;
+import de.xsrc.scm.tui.Theme;
 
 /**
  * A simple git log viewer which also displays logs from submodules.
@@ -27,12 +28,13 @@ public class App {
 
   public static void main(final String[] args) throws IOException {
     final GUIScreen textGUI = TerminalFacade.createGUIScreen();
+    textGUI.setTheme(new Theme());
 
     try {
       final History history = new History(System.getProperty("user.dir"));
       final Window window = new HistoryWindow(history);
       window.setSoloWindow(true);
-      window.setBorder(new Border.Invisible());
+      window.setBorder(new Border.Bevel(false));
       window.addWindowListener(new WindowListener() {
 
         @Override
