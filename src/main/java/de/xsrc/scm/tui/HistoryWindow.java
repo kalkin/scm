@@ -6,8 +6,8 @@ import com.googlecode.lanterna.gui.Window;
 import com.googlecode.lanterna.gui.component.ActionListBox;
 import com.googlecode.lanterna.terminal.TerminalSize;
 
-import de.xsrc.scm.History;
 import de.xsrc.scm.HistoryEntry;
+import de.xsrc.scm.History;
 
 /**
  * This window list the HistoryEntries similar to tig. It uses the

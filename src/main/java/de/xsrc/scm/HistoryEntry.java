@@ -29,6 +29,10 @@ public class HistoryEntry {
     this.level = level;
   }
 
+  public int getDate() {
+    return this.commit.getCommitTime();
+  }
+
   /**
    * @return the submodule level
    */
