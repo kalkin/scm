@@ -1,5 +1,7 @@
 package de.xsrc.scm;
 
+import java.util.Objects;
+
 import org.eclipse.jgit.revwalk.RevCommit;
 
 /**
@@ -13,6 +15,7 @@ import org.eclipse.jgit.revwalk.RevCommit;
  */
 public class HistoryEntry {
   private final RevCommit commit;
+
   private int level = 0;
 
   protected HistoryEntry(final RevCommit commit) {
@@ -20,6 +23,8 @@ public class HistoryEntry {
   }
 
   protected HistoryEntry(final RevCommit commit, final int level) {
+    Objects.requireNonNull(commit);
+    Objects.requireNonNull(level);
     this.commit = commit;
     this.level = level;
   }
