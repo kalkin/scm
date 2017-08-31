@@ -32,6 +32,8 @@ public final class HistoryIterator implements Iterator<HistoryEntry> {
 	} catch (RevisionSyntaxException | IOException e) {
 	    LOG.error("RevWalk could not mark start " + repo.getDirectory().getAbsolutePath());
 	    e.printStackTrace();
+	} finally {
+	    walker.close();
 	}
 	this.walkerIterators.add(walker.iterator());
 	initSubmodule(repo);
@@ -56,6 +58,7 @@ public final class HistoryIterator implements Iterator<HistoryEntry> {
 		final RevWalk walker = new RevWalk(subRepo);
 		walker.markStart(walker.parseCommit(subRepo.resolve("HEAD")));
 		this.walkerIterators.add(walker.iterator());
+		walker.close();
 	    }
 
 	} catch (final IOException e) {
