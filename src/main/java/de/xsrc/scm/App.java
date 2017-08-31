@@ -37,7 +37,6 @@ public class App {
     public static void main(final String[] args) throws IOException {
 	final DefaultTerminalFactory terminalFactory = new DefaultTerminalFactory();
 	final Screen screen;
-	// terminalFactory.setTheme(new Theme());
 
 	try {
 	    Terminal terminal = terminalFactory.createTerminal();
@@ -47,16 +46,7 @@ public class App {
 	    final Window window = new HistoryWindow(history);
 	    List<Window.Hint> hints = Arrays.asList(Window.Hint.FULL_SCREEN);
 	    window.setHints(hints);
-	    // window.setSoloWindow(true);
-	    // window.setBorder(new Border.Bevel(false));
 	    window.addWindowListener(new WindowListener() {
-
-		//
-		// @Override
-		// public void onUnhandledKeyboardInteraction(final Window
-		// window, final Key key) {
-
-		// }
 
 		@Override
 		public void onInput(Window basePane, KeyStroke keyStroke, AtomicBoolean deliverEvent) {
