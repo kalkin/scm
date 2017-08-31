@@ -33,7 +33,8 @@ public class HistoryWindow extends BasicWindow {
 	    } else {
 		final int level = 1;
 		final String logmsg = String.format("%" + level + "s", entry.getMessage());
-		actionListBox.addItem(logmsg, (Runnable) () -> System.out.println(logmsg));
+		actionListBox.addItem(logmsg, (Runnable) () -> {
+		});
 		maxRows--;
 	    }
 	}

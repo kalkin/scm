@@ -60,7 +60,7 @@ public class App {
 
 		@Override
 		public void onInput(Window basePane, KeyStroke keyStroke, AtomicBoolean deliverEvent) {
-		    System.out.println(keyStroke.toString());
+		    LOG.debug(keyStroke.toString());
 		    if (keyStroke.getKeyType() == KeyType.Character) {
 			switch (keyStroke.getCharacter()) {
 			case 'q':
