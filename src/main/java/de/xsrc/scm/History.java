@@ -4,8 +4,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Iterator;
 
-import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
 
 /**
  * This is an {@link Iterable} which is used by the UI for iterating over
@@ -17,9 +17,10 @@ import org.eclipse.jgit.lib.Repository;
 public class History implements Iterable<HistoryEntry> {
 
     private final Iterator<HistoryEntry> iterator;
+    private Repository repo;
 
     /**
-     * Generate History from a given git project path
+     * Generate History for the current directory
      *
      * @param uri
      *            local or remote path to a git repo
@@ -27,10 +28,10 @@ public class History implements Iterable<HistoryEntry> {
      *             Git repository can not be opened
      */
     public History(final String uri) throws IOException {
-	final Git git = Git.open(new File(uri));
-	final Repository repo = git.getRepository();
-	this.iterator = new HistoryIterator(repo);
-
+	File current = new File(uri);
+	FileRepositoryBuilder builder = new FileRepositoryBuilder().findGitDir(current);
+	this.repo = builder.build();
+	this.iterator = new HistoryIterator(this.repo);
     }
 
     @Override
