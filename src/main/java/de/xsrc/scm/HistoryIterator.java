@@ -55,10 +55,16 @@ public final class HistoryIterator implements Iterator<HistoryEntry> {
 	    final SubmoduleWalk subWalk = SubmoduleWalk.forIndex(repo);
 	    while (subWalk.next()) {
 		final Repository subRepo = subWalk.getRepository();
-		final RevWalk walker = new RevWalk(subRepo);
-		walker.markStart(walker.parseCommit(subRepo.resolve("HEAD")));
-		this.walkerIterators.add(walker.iterator());
-		walker.close();
+		try {
+		    final RevWalk walker = new RevWalk(subRepo);
+		    walker.markStart(walker.parseCommit(subRepo.resolve("HEAD")));
+		    this.walkerIterators.add(walker.iterator());
+		    walker.close();
+		} catch (NullPointerException e) {
+		    // Submodule is not initialized
+		    // TODO initialize submodule
+		}
+
 	    }
 
 	} catch (final IOException e) {
