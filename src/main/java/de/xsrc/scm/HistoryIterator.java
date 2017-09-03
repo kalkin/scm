@@ -26,17 +26,15 @@ public final class HistoryIterator implements Iterator<HistoryEntry> {
     private final LinkedList<Iterator<RevCommit>> walkerIterators = new LinkedList<>();
 
     public HistoryIterator(final Repository repo) {
-	final RevWalk walker = new RevWalk(repo);
-	try {
+	try (RevWalk walker = new RevWalk(repo)) {
 	    walker.markStart(walker.parseCommit(repo.resolve("HEAD")));
+	    this.walkerIterators.add(walker.iterator());
+	    initSubmodule(repo);
 	} catch (RevisionSyntaxException | IOException e) {
 	    LOG.error("RevWalk could not mark start " + repo.getDirectory().getAbsolutePath());
 	    e.printStackTrace();
-	} finally {
-	    walker.close();
 	}
-	this.walkerIterators.add(walker.iterator());
-	initSubmodule(repo);
+
     }
 
     @Override
@@ -50,19 +48,11 @@ public final class HistoryIterator implements Iterator<HistoryEntry> {
 
     /**
      */
-    private void initSubmodule(final Repository repo) {
-	try {
-	    final SubmoduleWalk subWalk = SubmoduleWalk.forIndex(repo);
+    private static void initSubmodule(final Repository repo) throws NullPointerException {
+	try (final SubmoduleWalk subWalk = SubmoduleWalk.forIndex(repo)) {
 	    while (subWalk.next()) {
-		final Repository subRepo = subWalk.getRepository();
-		try {
-		    final RevWalk walker = new RevWalk(subRepo);
+		try (final Repository subRepo = subWalk.getRepository(); final RevWalk walker = new RevWalk(subRepo)) {
 		    walker.markStart(walker.parseCommit(subRepo.resolve("HEAD")));
-		    this.walkerIterators.add(walker.iterator());
-		    walker.close();
-		} catch (NullPointerException e) {
-		    // Submodule is not initialized
-		    // TODO initialize submodule
 		}
 
 	    }
@@ -90,8 +80,7 @@ public final class HistoryIterator implements Iterator<HistoryEntry> {
 	}
 	if (youngest == null)
 	    return null;
-	else
-	    return this.walkerHistoryMap.remove(youngest);
+	return this.walkerHistoryMap.remove(youngest);
     }
 
     /**

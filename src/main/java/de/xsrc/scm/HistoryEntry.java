@@ -25,7 +25,6 @@ public class HistoryEntry {
 
     protected HistoryEntry(final RevCommit commit, final int level) {
 	Objects.requireNonNull(commit);
-	Objects.requireNonNull(level);
 	this.commit = commit;
 	this.level = level;
     }
