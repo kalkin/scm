@@ -30,13 +30,11 @@ public class HistoryWindow extends BasicWindow {
 	for (final HistoryEntry entry : this.history) {
 	    if (maxRows <= 0) {
 		break;
-	    } else {
-		final int level = 1;
-		final String logmsg = String.format("%" + level + "s", entry.getMessage());
-		actionListBox.addItem(logmsg, (Runnable) () -> {
-		});
-		maxRows--;
 	    }
+	    final int level = 1;
+	    final String logmsg = String.format("%" + level + "s", entry.getMessage());
+	    actionListBox.addItem(logmsg, (Runnable) () -> {});
+	    maxRows--;
 	}
 	this.setComponent(actionListBox);
     }
