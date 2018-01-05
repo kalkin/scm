@@ -1,4 +1,4 @@
-build:
+target/scm-1.0-SNAPSHOT-jar-with-dependencies.jar :
 	mvn package
 
 clean:
@@ -13,6 +13,6 @@ $(HOME)/.local/bin/scm:
 	echo "java -jar $(HOME)/.local/share/scm/scm.jar" > $@
 	chmod u+x $@
 
-install: $(HOME)/.local/bin/scm
+install: target/scm-1.0-SNAPSHOT-jar-with-dependencies.jar  $(HOME)/.local/bin/scm
 	mkdir -p $(HOME)/.local/share/scm
 	cp target/scm-1.0-SNAPSHOT-jar-with-dependencies.jar $(HOME)/.local/share/scm/scm.jar
