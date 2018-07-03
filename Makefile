@@ -1,4 +1,7 @@
-target/scm-1.0-SNAPSHOT-jar-with-dependencies.jar :
+
+SOURCES = $(shell find src/ -name \*.java)
+
+target/scm-1.0-SNAPSHOT-jar-with-dependencies.jar : pom.xml $(SOURCES)
 	mvn package
 
 clean:
