@@ -43,9 +43,12 @@ public class HistoryEntry {
     /**
      * @return git short message
      */
-    public String getMessage() {
-	return this.commit.getShortMessage();
-    }
+	public String getMessage() {
+		if (this.commit.getParentCount() > 1) {
+			return "▶ " + this.commit.getShortMessage();
+		}
+		return "● " + this.commit.getShortMessage();
+	}
 
     public void setLevel(final int level) {
 	this.level = level;
