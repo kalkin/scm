@@ -57,7 +57,7 @@ public final class HistoryIterator implements Iterator<HistoryEntry> {
 
 	    }
 
-	} catch (final IOException e) {
+	} catch (final IOException | NullPointerException e) {
 	    LOG.error("Can not iterate through submodules " + repo.getDirectory().getAbsolutePath());
 	    e.printStackTrace();
 	}
