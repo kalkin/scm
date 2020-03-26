@@ -16,7 +16,7 @@ eclipse:
 	mvn eclipse:eclipse
 
 $(HOME)/.local/bin/scm:
-	echo "java -jar $(HOME)/.local/share/scm/scm.jar" > $@
+	(echo "#!/bin/sh"; echo "java -jar $(HOME)/.local/share/scm/scm.jar") > $@
 	chmod u+x $@
 
 install: target/scm-1.0-SNAPSHOT-jar-with-dependencies.jar  $(HOME)/.local/bin/scm
